@@ -2,32 +2,175 @@ version: 2
 
 models:
  - name: stg_company
-   description: Staged order data from the bootcamp dataset, focused on clerical information.
+   description: Staged company data from Copper
    columns: 
     - name: company_id
       description: Primary Key for Company
+      type: int
       tests:
        - unique
        - not_null
 
     - name: company_name
       description: Name of the Company
+      type: varchar
       tests:
        - not_null
 
     - name: address
       description: Date the order must arrive by
+      type: varchar
 
     - name: assignee_id
       description: Date that the order was shipped
+      type: int
 
     - name: details
       description: Customer Details
+      type: varchar
 
     - name: interaction_count
       description: Foreign Key for customer
+      type: int
       tests:
        - not_null
 
     - name: date_created
       description: Date Customer was created
+      type: date
+
+ - name: stg_people
+   description: Staged people data from Copper
+   columns: 
+    - name: person_id
+      description: Primary Key for People
+      type: int
+      tests:
+       - unique
+       - not_null
+
+    - name: first_name
+      description: First Name of Person
+      type: varchar
+      tests:
+       - not_null
+
+    - name: last_name
+      description: Last Name of Person
+      type: varchar
+      tests:
+       - not_null
+
+    - name: address
+      description: Street Address of Person
+      type: int
+
+    - name: assignee_id
+      description: user_id of the employee assigned to this person (Foreign Key).
+      type: int
+      tests:
+       - not_null
+
+    - name: company_id
+      description: company_id of the company where this person works (Foreign Key).
+      type: int
+
+    - name: company_name
+      description: Name of the company where this person works.
+      type: varchar
+
+    - name: title
+      description: Person's title, professional position.
+      type: varchar
+
+    - name: date_last_contacted
+      description: Last time this person was contacted by their assignee or other employee.
+      type: date
+
+    - name: date_created
+      description: Date this person's entry was created in Copper
+      type: date
+
+ - name: stg_pipeline
+   description: Staged Pipeline data from Copper
+   columns: 
+    - name: id
+      description: Key for Pipeline, not table primary key. (Table Key is Composite of id, or name, and stage)
+      type: int
+      tests:
+       - not_null
+
+    - name: name
+      description: Name of the Pipeline
+      type: varchar
+      tests:
+       - not_null
+
+    - name: stage_name
+      description: Name of the Pipeline Stage, specific to the Pipeline itself
+      type: varchar
+      tests:
+       - not_null
+
+    - name: stage_win_probability
+      description: Percentage representing the chance of success at the current stage
+      type: int
+    
+    - name: stage_id
+      description: Key for the stage (attatched to stage_name, id)
+      type: int
+      tests:
+       - not_null
+
+ - name: stg_biz_dev_opportunity
+   description: Staged Opportunity data from Copper
+   columns: 
+    - name: opportunity_id
+      description: Primary key for opportunities
+      type: int
+      tests:
+       - unique
+       - not_null
+
+    - name: opportunity_name
+      description: Name given to the opportunity
+      type: varchar
+      tests:
+       - not_null
+
+    - name: company_name
+      description: Name of the company attatched to said opportunity
+      type: varchar
+
+    - name: interaction_count
+      description: Number of interactions logged with this client's opportunity
+      type: int
+
+    - name: status
+      description: Status of the Opp (Open, Won, Lost, or Abandoned)
+      type: varchar
+
+    - name: monetary_unit
+      description: Type of currency used for this opp
+      type: varchar
+
+    - name: monetary_value
+      description: Amount of (monetary_unit) on the table
+      type: int
+
+    - name: details
+      description: Any additional details on the opp
+      type: int
+
+    - name: date_created
+      description: Date this opp was created
+      type: date
+
+    - name: pipeline_id
+      description: Foriegn Key for Pipelines
+      type: int
+
+    - name: pipeline_stage_id
+      description: Foriegn Key for stages in the Pipeline table
+      type: int
+
